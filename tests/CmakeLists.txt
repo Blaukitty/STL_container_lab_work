@@ -1,0 +1,24 @@
+cmake_minimum_required(VERSION 3.15)
+project(CircularLinkedList LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+add_executable(circular_linked_list src/main.cpp src/circular_linked_list.cpp)
+
+add_executable(
+    circular_linked_list_tests
+    test_main.cpp  # Основной файл тестов
+    circular_linked_list_test.cpp  # Тесты для вашего списка
+)
+
+target_link_libraries(
+    circular_linked_list_tests
+    PRIVATE
+    gtest_main
+    gmock
+    circular_linked_list  # Если main проект — библиотека
+)
+
+include(GoogleTest)
+gtest_discover_tests(circular_linked_list_tests)
