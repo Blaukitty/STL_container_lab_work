@@ -16,9 +16,10 @@ jobs:
       - name: Build Gtest
         run: |
           cd /usr/src/gtest
-          sudo cmake CMakeLists.txt
-          sudo make
-          sudo cp *.a /usr/lib
+          mkdir -p build && cd build
+          cmake ..
+          make
+          sudo find . -name '*.a' -exec cp {} /usr/lib/ \;
 
       - name: Build 
         run: |
