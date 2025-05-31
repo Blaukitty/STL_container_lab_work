@@ -11,6 +11,9 @@ TESTSRC := tests/test.cpp
 CLI_BIN := cli
 TEST_BIN := test
 
+$(TEST_BIN): tests/test.cpp
+    g++ -std=c++20 -O2 -Wall -Wextra -I lab_work $< -lgtest -lgtest_main -pthread -o $@
+
 .PHONY: all clean
 
 all: $(CLI_BIN) $(TEST_BIN)
