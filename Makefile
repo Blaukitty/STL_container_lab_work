@@ -11,20 +11,19 @@ TESTSRC := tests/test.cpp
 CLI_BIN := cli
 TEST_BIN := test
 
-$(TEST_BIN): tests/test.cpp
-    g++ -std=c++20 -O2 -Wall -Wextra -I lab_work $< -lgtest -lgtest_main -pthread -o $@
-
 .PHONY: all clean
 
 all: $(CLI_BIN) $(TEST_BIN)
 
-# 1) Собираем cli
+# cli
 $(CLI_BIN): $(CLISEL)
 	$(CXX) $(CXXFLAGS) -I $(INCDIR) $< -o $@
 
-# 2) Собираем тесты
+# тесты
 $(TEST_BIN): $(TESTSRC)
-	$(CXX) $(CXXFLAGS) -I $(INCDIR) $< -o $@
+	$(CXX) $(CXXFLAGS) -I $(INCDIR) \
+		$< -o $@ \
+		-lgtest -lgtest_main -pthread
 
 clean:
 	rm -f $(CLI_BIN) $(TEST_BIN)
