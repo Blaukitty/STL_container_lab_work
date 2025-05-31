@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <initializer_list>
 #include <cstddef>
+#include <utility>
 
 template <typename T>
 class Circle_list {
@@ -279,22 +280,7 @@ public:
     }
 
     // поэлементнотое сравнение
-    [[nodiscard]] bool operator==(const Circle_list& other) const { 
-    if (size != other.size) return false;
-
-    auto it1 = begin();
-    auto it2 = other.begin();
-    auto e1  = end();
-    auto e2  = other.end();
-
-    while (it1 != e1 && it2 != e2) {
-        if (*it1 != *it2) return false;
-        ++it1;
-        ++it2;
-    }
-    return true; 
-    }
-
+    [[nodiscard]] bool operator==(const Circle_list& other) const = default;
 };
 
 #endif 
