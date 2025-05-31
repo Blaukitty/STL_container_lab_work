@@ -5,14 +5,14 @@
 #include <string>
 
 // Проверяем, что новый список пуст
-TEST(Basic, if_empty) {
+TEST(Basic, IfEmpty) {
     Circle_list<int> lst;
     EXPECT_TRUE(lst.empty());
     EXPECT_EQ(lst.get_size(), 0u);
 }
 
 // После append и prepend элементы на месте
-TEST(Basic, append_prepend) {
+TEST(Basic, AppendPrepend) {
     Circle_list<int> lst;
     lst.append(10);
     EXPECT_FALSE(lst.empty());
@@ -32,7 +32,7 @@ TEST(Basic, append_prepend) {
 }
 
 // Удаление первого элемента
-TEST(Basic, Delete_first) {
+TEST(Basic, DeleteFirst) {
     Circle_list<int> lst = {1, 2, 3};
     EXPECT_EQ(lst.get_size(), 3u);
 
@@ -54,7 +54,7 @@ TEST(Basic, Delete_first) {
 }
 
 // Итератор пробежаться от головы до конца
-TEST(Iter, forword) {
+TEST(Iter, Forword) {
     Circle_list<int> lst = {10, 20, 30, 40};
     std::vector<int> seen;
     for (auto& x : lst) {
@@ -65,7 +65,7 @@ TEST(Iter, forword) {
 }
 
 // Конструктор копирования 
-TEST(Copy, copypaste) {
+TEST(Copy, Copypaste) {
     Circle_list<std::string> orig = {"a", "b", "c"};
     Circle_list<std::string> copy1(orig);
     EXPECT_EQ(copy1.get_size(), 3u);
@@ -82,7 +82,7 @@ TEST(Copy, copypaste) {
 }
 
 // Конструктор перемещения и оператор= перемещением
-TEST(Move, moves) {
+TEST(Move, Moves) {
     Circle_list<int> temp = {1,2,3};
     Circle_list<int> moved1(std::move(temp));
     EXPECT_TRUE(temp.empty());  
@@ -104,7 +104,7 @@ TEST(Move, moves) {
 }
 
 
-   TEST(Compare, if_equal) {
+   TEST(Compare, IfEqual) {
     Circle_list<int> a = {1,2,3};
     Circle_list<int> b = {1,2,3};
     Circle_list<int> c = {1,2,4};
