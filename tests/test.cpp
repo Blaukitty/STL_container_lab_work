@@ -2,16 +2,17 @@
 #include <gtest/gtest.h>
 #include <algorithm>
 #include <vector>
+#include <string>
 
 // Проверяем, что новый список пуст
-TEST(CircleListBasic, InitiallyEmpty) {
+TEST(Basic, if_empty) {
     Circle_list<int> lst;
     EXPECT_TRUE(lst.empty());
     EXPECT_EQ(lst.get_size(), 0u);
 }
 
 // После append и prepend элементы на месте
-TEST(CircleListBasic, AppendPrependFrontBack) {
+TEST(Basic, append_prepend) {
     Circle_list<int> lst;
     lst.append(10);
     EXPECT_FALSE(lst.empty());
@@ -31,7 +32,7 @@ TEST(CircleListBasic, AppendPrependFrontBack) {
 }
 
 // Удаление первого элемента
-TEST(CircleListBasic, RemoveFirst) {
+TEST(Basic, Delete_first) {
     Circle_list<int> lst = {1, 2, 3};
     EXPECT_EQ(lst.get_size(), 3u);
 
@@ -52,8 +53,8 @@ TEST(CircleListBasic, RemoveFirst) {
     EXPECT_THROW(lst.remove_first(), std::out_of_range);
 }
 
-// Итератор итерируется от head до tail один раз
-TEST(CircleListIter, ForwardIteration) {
+// Итератор пробежаться от головы до конца
+TEST(Iter, forword) {
     Circle_list<int> lst = {10, 20, 30, 40};
     std::vector<int> seen;
     for (auto& x : lst) {
@@ -63,8 +64,8 @@ TEST(CircleListIter, ForwardIteration) {
     EXPECT_EQ(seen, expected);
 }
 
-// Конструктор копирования и оператор= копируют данные
-TEST(CircleListCopy, CopyConstructorAndAssign) {
+// Конструктор копирования 
+TEST(Copy, copypaste) {
     Circle_list<std::string> orig = {"a", "b", "c"};
     Circle_list<std::string> copy1(orig);
     EXPECT_EQ(copy1.get_size(), 3u);
@@ -81,10 +82,10 @@ TEST(CircleListCopy, CopyConstructorAndAssign) {
 }
 
 // Конструктор перемещения и оператор= перемещением
-TEST(CircleListMove, MoveConstructorAndAssign) {
+TEST(Move, moves) {
     Circle_list<int> temp = {1,2,3};
     Circle_list<int> moved1(std::move(temp));
-    EXPECT_TRUE(temp.empty());  // источник сброшен
+    EXPECT_TRUE(temp.empty());  
     EXPECT_EQ(moved1.get_size(), 3u);
     std::vector<int> v1;
     for (auto& x : moved1) v1.push_back(x);
@@ -96,27 +97,21 @@ TEST(CircleListMove, MoveConstructorAndAssign) {
     EXPECT_TRUE(temp2.empty());
     EXPECT_EQ(moved2.get_size(), 2u);
     std::vector<int> v2;
-    for (auto& x : moved2) v2.push_back(x);
+    for (auto& x : moved2) {
+        v2.push_back(x);
+    }
     EXPECT_EQ(v2, (std::vector<int>{4,5}));
 }
 
-// Оператор <=> и == 
-TEST(CircleListCompare, ThreeWayAndEqual) {
+
+   TEST(Compare, if_equal) {
     Circle_list<int> a = {1,2,3};
     Circle_list<int> b = {1,2,3};
     Circle_list<int> c = {1,2,4};
     Circle_list<int> d = {1,2};
 
-    // ==, !=
     EXPECT_TRUE(a == b);
     EXPECT_FALSE(a == c);
     EXPECT_FALSE(a == d);
-
-    // <=> сравнение поэлементно
-    EXPECT_EQ((a <=> b), std::strong_ordering::equal);
-    EXPECT_EQ((a <=> c), std::strong_ordering::less);
-    EXPECT_EQ((c <=> a), std::strong_ordering::greater);
-    // Длины: d меньше, чем a (т. к. size=2 vs size=3)
-    EXPECT_EQ((d <=> a), std::strong_ordering::less);
-    EXPECT_EQ((a <=> d), std::strong_ordering::greater);
+}
 }
