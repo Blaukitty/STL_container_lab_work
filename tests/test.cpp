@@ -114,4 +114,4 @@ TEST(Move, Moves) {
     EXPECT_FALSE(a == c);
     EXPECT_FALSE(a == d);
 }
-}
+
