@@ -1,0 +1,61 @@
+cmake_minimum_required(VERSION 3.15)
+project(CircularLinkedList LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+target_include_directories(${PROJECT_NAME} PUBLIC
+    ${PROJECT_SOURCE_DIR}/include
+)
+
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/refs/tags/v1.13.0.zip
+)
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+
+enable_testing() 
+
+add_library(circular_linked_list_lib
+    src/circular_linked_list.cpp
+)
+target_include_directories(circular_linked_list_lib
+    PUBLIC
+        ${PROJECT_SOURCE_DIR}/include
+)
+
+set_target_properties(circular_linked_list_lib PROPERTIES
+    OUTPUT_NAME circular_linked_list  # чтобы артефакт назывался lib.circular_linked_list.a
+)
+
+add_executable(circular_linked_list_app
+    src/main.cpp
+)
+target_link_libraries(circular_linked_list_app
+    PRIVATE
+        circular_linked_list_lib
+)
+
+add_executable(circular_linked_list_tests
+    test_main.cpp
+    circular_linked_list_test.cpp
+)
+target_link_libraries(circular_linked_list_tests
+    PRIVATE
+        circular_linked_list_lib   
+        gtest_main                
+)
+
+target_include_directories(circular_linked_list_tests
+    PRIVATE
+        ${PROJECT_SOURCE_DIR}/include
+)
+
+include(GoogleTest)
+gtest_discover_tests(circular_linked_list_tests
+    # Здесь можно настроить опции, но по умолчанию найдёт все TEST() и запишет в CTest.
+)
+
