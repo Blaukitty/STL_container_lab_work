@@ -1,4 +1,4 @@
-#ifdef CIRCLE_LIST_HPP
+#ifndef CIRCLE_LIST_HPP
 #define CIRCLE_LIST_HPP
 
 #include <iostream>
