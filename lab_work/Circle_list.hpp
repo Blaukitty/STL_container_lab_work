@@ -1,4 +1,5 @@
-#include guard
+#ifdef CIRCLE_LIST_HPP
+#define CIRCLE_LIST_HPP
 
 #include <iostream>
 #include <stdexcept>
@@ -295,3 +296,5 @@ public:
     }
 
 };
+
+#endif 
