@@ -1,3 +1,5 @@
+#include guard
+
 #include <iostream>
 #include <stdexcept>
 #include <initializer_list>
