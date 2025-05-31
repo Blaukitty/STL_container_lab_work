@@ -1,0 +1,168 @@
+## Структура проекта
+
+STL_container_lab_work/
+│
+├── Makefile
+├── README.md
+│
+├── lab_work/
+│ ├── Circle_list.hpp # Заголовок с реализацией списка
+│ └── cli.cpp # Демонстрация работы main
+│
+└── tests/
+└── test.cpp # Набор тестов Google Test
+
+## Класс Circle_List:
+
+#Поля:
+Node* head = nullptr;     указатель на первый элемент
+Node* tail = nullptr;     указатель на последний элемент
+std::size_t size = 0;     текущее количество элементов
+
+#Конструкторы
+  
+Конструктор инициализации:
+Circle_list(std::initializer_list<T> init) {
+    for (auto& x : init) append(x);
+}
+
+Конструктор копирования:
+Circle_list(const Circle_list& other) {
+    for (auto& x : other) append(x);
+}
+
+Конструктор перемещения:
+Circle_list(Circle_list&& other) noexcept
+  : head(other.head), tail(other.tail), size(other.size)
+{
+    other.head = other.tail = nullptr;
+    other.size = 0;
+}
+
+Деструктор:
+~Circle_list() {
+    clear();
+}
+
+#Функции 
+
+void append(const T& value) {
+    Node* node = new Node(value);
+    if (empty()) {
+        head = tail = node;
+        node->next = node;  единственный узел указывает сам на себя
+    } else {
+        node->next = head;
+        tail->next = node;
+        tail = node;
+    }
+    ++size;
+}
+
+void prepend(const T& value) {
+    Node* node = new Node(value);
+    if (empty()) {
+        head = tail = node;
+        node->next = node;
+    } else {
+        node->next = head;
+        head = node;
+        tail->next = head;  перенаправляем tail->next на новый head
+    }
+    ++size;
+}
+
+Функция удаления первого элемента
+void remove_first() {
+    if (empty()) throw std::out_of_range("List is empty");
+
+    if (size == 1) {
+        delete head;
+        head = tail = nullptr;
+        size = 0;
+        return;
+    }
+    Node* old_head = head;
+    head = head->next;
+    tail->next = head; 
+    delete old_head;
+    --size;
+}
+
+#Методы доступа
+  
+[[nodiscard]] bool empty() const noexcept { return size == 0; }    проверяет, есть ли элементы.
+[[nodiscard]] std::size_t get_size() const noexcept { return size; }   возвращает число элементов.
+
+[[nodiscard]] T& front() {
+    if (empty()) throw std::out_of_range("List is empty");  
+    return head->data;
+}
+[[nodiscard]] const T& front() const {
+    if (empty()) throw std::out_of_range("List is empty");
+    return head->data;
+}
+
+[[nodiscard]] T& back() {
+    if (empty()) throw std::out_of_range("List is empty");
+    return tail->data;
+}
+[[nodiscard]] const T& back() const {
+    if (empty()) throw std::out_of_range("List is empty");
+    return tail->data;
+}
+
+front()/back() возвращают ссылки на данные в head/tail, кидают исключение, если список пуст.
+
+##Класс Итератор
+Для того чтобы можно было обойти список как обычно.
+
+Есть 3 поля:
+Node* current;   указатель на текущий узел
+Node* head;      указатель на начало списка (нужен, чтобы понять, когда мы завершили полный круг)
+bool done;       флаг, что мы уже прошли круг
+
+Основные методы и операторы:
+reference operator*() const { return current->data; }   возвращает ссылку на дату
+pointer   operator->() const { return &current->data; } позволяет записывать
+
+Окончание круга:
+Iterator& operator++() {  
+    если следующий узел — это голова, значит мы вот-вот «закончим круг»
+    if (current->next == head) {
+        done = true;
+    }
+   независимо: двигаем current вперёд
+    current = current->next;
+    return *this;
+}
+Iterator operator++(int) {
+    Iterator tmp = *this;
+    ++(*this);
+    return tmp;
+}
+
+Чтобы получить начальный и конечный операторы:
+Iterator begin() const {
+    if (empty()) return end();            если список пуст, сразу возвращаем «конец»
+    return Iterator(head, head, false);   указываем, что мы на head, ещё не “done”
+}
+Iterator end() const {
+    if (empty()) return Iterator(nullptr, nullptr, true);
+    return Iterator(head, head, true);   dоne=true, current=head → это «конец»
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
