@@ -5,9 +5,9 @@ CXX := g++
 CXXFLAGS := -std=c++20 -O2 -Wall -Wextra
 
 # Пути
-INCDIR := lab_work           # здесь лежит Circle_list.hpp
-CLISEL := lab_work/cli.cpp   # исходник для CLI
-TESTSRC := tests/test.cpp    # исходник для тестов
+INCDIR := lab_work           
+CLISEL := lab_work/cli.cpp   
+TESTSRC := tests/test.cpp    
 
 # Имена итоговых бинарников
 CLI_BIN := cli
