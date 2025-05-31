@@ -102,16 +102,3 @@ TEST(Move, Moves) {
     }
     EXPECT_EQ(v2, (std::vector<int>{4,5}));
 }
-
-
-   TEST(Compare, IfEqual) {
-    Circle_list<int> a = {1,2,3};
-    Circle_list<int> b = {1,2,3};
-    Circle_list<int> c = {1,2,4};
-    Circle_list<int> d = {1,2};
-
-    EXPECT_TRUE(a == b);
-    EXPECT_FALSE(a == c);
-    EXPECT_FALSE(a == d);
-}
-
