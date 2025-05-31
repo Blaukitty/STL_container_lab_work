@@ -278,9 +278,6 @@ public:
         }
         return Iterator(head, head, true);
     }
-
-    // поэлементнотое сравнение
-    [[nodiscard]] bool operator==(const Circle_list& other) const = default;
 };
 
 #endif 
